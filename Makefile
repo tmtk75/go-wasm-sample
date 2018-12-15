@@ -8,7 +8,7 @@ serve: server.go
 .PHONY: init
 init: wasm_exec.html wasm_exec.js go_js_wasm_exec
 
-wasm_exec.js:
+wsm_exec.js:
 	#curl -sO https://raw.githubusercontent.com/golang/go/master/misc/wasm/wasm_exec.js
 	cp `go env GOROOT`/misc/wasm/wasm_exec.js .
 
