@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8">
         <link rel="shortcut icon" href="">
-		<script src="wasm_exec.js"></script>
+		<script src="../wasm_exec.js"></script>
 		<script>
 			const go = new Go();
 			WebAssembly.instantiateStreaming(fetch("test.wasm"), go.importObject).then((result) => {
