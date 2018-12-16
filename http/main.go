@@ -9,9 +9,13 @@ import (
 	"syscall/js"
 )
 
+var Version string
+
 func request(i []js.Value) {
+	u := i[0].String()
+
 	c := http.Client{}
-	r, err := c.Get("http://example.com")
+	r, err := c.Get(u)
 	if err != nil {
 		fmt.Printf("%v\n", err)
 		return
@@ -25,6 +29,7 @@ func request(i []js.Value) {
 }
 
 func registerCallbacks() func() {
+	fmt.Printf("version: %v\n", Version)
 	cb := js.NewCallback(request)
 	js.Global().Set("request", cb)
 	return func() {
