@@ -19,10 +19,16 @@ func add(i []js.Value) {
 	a := int1 + int2
 	js.Global().Set("output", a)
 	fmt.Println(a)
+
+	js.Global().Get("document").Call("getElementById", i[2].String()).Set("value", a)
 }
 
-func registerCallbacks() {
-	js.Global().Set("add", js.NewCallback(add))
+func registerCallbacks() func() {
+	cb := js.NewCallback(add)
+	js.Global().Set("add", cb)
+	return func() {
+		cb.Release()
+	}
 }
 
 func main() {
@@ -30,6 +36,7 @@ func main() {
 
 	println("WASM Go Initialized")
 	// register functions
-	registerCallbacks()
+	r := registerCallbacks()
 	<-c
+	r()
 }
