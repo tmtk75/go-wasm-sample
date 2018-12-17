@@ -12,20 +12,22 @@ import (
 var Version string
 
 func request(i []js.Value) {
-	u := i[0].String()
+	go (func() {
+		u := i[0].String()
 
-	c := http.Client{}
-	r, err := c.Get(u)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		return
-	}
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		return
-	}
-	fmt.Printf("%v", string(b))
+		c := http.Client{}
+		r, err := c.Get(u)
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
+		b, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
+		fmt.Printf("%v", string(b))
+	})()
 }
 
 func registerCallbacks() func() {
