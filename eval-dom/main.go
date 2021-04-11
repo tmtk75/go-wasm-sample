@@ -8,7 +8,7 @@ import (
 	"syscall/js"
 )
 
-func add(i []js.Value) {
+func add(this js.Value, i []js.Value) interface{} {
 	fmt.Printf("%v\n", i)
 	value1 := js.Global().Get("document").Call("getElementById", i[0].String()).Get("value").String()
 	value2 := js.Global().Get("document").Call("getElementById", i[1].String()).Get("value").String()
@@ -21,10 +21,11 @@ func add(i []js.Value) {
 	fmt.Println(a)
 
 	js.Global().Get("document").Call("getElementById", i[2].String()).Set("value", a)
+	return nil
 }
 
 func registerCallbacks() func() {
-	cb := js.NewCallback(add)
+	cb := js.FuncOf(add)
 	js.Global().Set("add", cb)
 	return func() {
 		cb.Release()

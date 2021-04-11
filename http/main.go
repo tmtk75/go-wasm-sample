@@ -11,7 +11,7 @@ import (
 
 var Version string
 
-func request(i []js.Value) {
+func request(this js.Value, i []js.Value) interface{} {
 	go (func() {
 		u := i[0].String()
 
@@ -28,11 +28,12 @@ func request(i []js.Value) {
 		}
 		fmt.Printf("%v", string(b))
 	})()
+	return nil
 }
 
 func registerCallbacks() func() {
 	fmt.Printf("version: %v\n", Version)
-	cb := js.NewCallback(request)
+	cb := js.FuncOf(request)
 	js.Global().Set("request", cb)
 	return func() {
 		cb.Release()
